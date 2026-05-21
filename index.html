@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>علي عقيل إبراهيم | Ali Aqeel</title>
+    <!-- ربط الأيقونة للمتصفح وللاختصارات الهاتف وسطح المكتب -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="apple-touch-icon" href="favicon.ico">
+    
+    <style>
+        :root {
+            --primary-color: #1e3a8a;
+            --text-color: #1f2937;
+            --bg-color: #f9fafb;
+            --card-bg: #ffffff;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; }
+        
+        /* شاشة اختيار اللغة */
+        .lang-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); color: white; text-align: center; padding: 20px; }
+        .lang-screen h1 { margin-bottom: 10px; font-size: 2.5rem; }
+        .lang-screen h2 { margin-bottom: 30px; font-size: 1.5rem; font-weight: 300; }
+        .btn-box { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+        .lang-btn { padding: 15px 40px; font-size: 1.2rem; font-weight: bold; border: none; border-radius: 50px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .lang-btn.ar { background-color: #ffffff; color: #1e3a8a; }
+        .lang-btn.en { background-color: #10b981; color: white; }
+        .lang-btn:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
+
+        /* حاوية السيرة الذاتية */
+        .cv-container { display: none; max-width: 900px; margin: 40px auto; padding: 20px; }
+        .back-btn { background-color: #9ca3af; color: white; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer; font-weight: bold; margin-bottom: 20px; display: inline-flex; align-items: center; gap: 5px; transition: background 0.2s; }
+        .back-btn:hover { background-color: #4b5563; }
+        
+        /* الهيدر والشخصية */
+        .profile-card { background: var(--card-bg); padding: 30px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: center; margin-bottom: 30px; border-top: 5px solid var(--primary-color); }
+        .profile-img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 4px solid #e5e7eb; margin-bottom: 15px; }
+        .profile-card h2 { font-size: 2.2rem; color: var(--primary-color); margin-bottom: 5px; }
+        .profile-card h3 { font-size: 1.3rem; color: #6b7280; font-weight: 500; margin-bottom: 15px; }
+        .summary { font-size: 1.1rem; color: #4b5563; max-width: 700px; margin: 0 auto 20px auto; }
+        
+        /* وسائل الاتصال */
+        .contact-info { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; padding-top: 15px; border-top: 1px solid #e5e7eb; }
+        .contact-item { font-size: 0.95rem; color: #4b5563; text-decoration: none; display: flex; align-items: center; gap: 5px; }
+        .contact-item:hover { color: var(--primary-color); }
+
+        /* الأقسام الجانبية والرئيسية */
+        .section { background: var(--card-bg); padding: 30px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 30px; }
+        .section-title { font-size: 1.5rem; color: var(--primary-color); margin-bottom: 20px; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+        
+        /* الخبرات والتعليم */
+        .timeline-item { margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px dashed #e5e7eb; }
+        .timeline-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+        .time-header { display: flex; justify-content: space-between; flex-wrap: wrap; margin-bottom: 5px; }
+        .company { font-weight: bold; font-size: 1.2rem; color: #111827; }
+        .date { color: #2563eb; font-weight: bold; font-size: 0.95rem; }
+        .job-title { font-style: italic; color: #4b5563; margin-bottom: 10px; font-weight: 500; }
+        .timeline-item ul { margin-left: 20px; margin-right: 20px; padding-left: 10px; padding-right: 10px; }
+        .timeline-item li { margin-bottom: 5px; color: #374151; }
+
+        /* المهارات */
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px; }
+        .skill-card { background: #f3f4f6; padding: 15px; border-radius: 8px; font-weight: 500; display: flex; justify-content: space-between; align-items: center; color: #374151; }
+        .skill-level { font-size: 0.85rem; background: var(--primary-color); color: white; padding: 2px 8px; border-radius: 12px; white-space: nowrap; }
+
+        /* اتجاهات اللغات */
+        [dir="rtl"] .time-header { flex-direction: row-reverse; }
+        [dir="rtl"] .back-btn { flex-direction: row-reverse; }
+    </style>
+</head>
+<body>
+
+    <!-- 1. شاشة اختيار اللغة الرئيسية -->
+    <div id="lang-page" class="lang-screen">
+        <h1>علي عقيل إبراهيم</h1>
+        <h2>السيرة الذاتية الإلكترونية | E-Portfolio</h2>
+        <div class="btn-box">
+            <button class="lang-btn ar" onclick="showCV('ar')">عرض باللغة العربية</button>
+            <button class="lang-btn en" onclick="showCV('en')">View In English</button>
+        </div>
+    </div>
+
+    <!-- 2. المحتوى باللغة العربية -->
+    <div id="cv-ar" class="cv-container" dir="rtl">
+        <button class="back-btn" onclick="goBack()">⬅ تغيير اللغة / Change Language</button>
+        
+        <div class="profile-card">
+            <img src="profile.jpg" alt="علي عقيل" class="profile-img">
+            <h2>علي عقيل إبراهيم</h2>
+          
+            <p class="summary">اكتسبت خبرة واسعة في جميع المجالات التي عملت بها، متميز بسعة التعلم السريع، والقدرة العالية على العمل الجماعي بفاعلية ضمن الفريق وتحمل ضغوط العمل المختلفة. أتطلع للانضمام إلى بيئة عمل احترافية لمشاركة خبراتي وتوظيف مهاراتي لتطوير بيئة العمل وتحقيق الأهداف المشتركة.</p>
+            
+            <div class="contact-info">
+                <a href="tel:07732521254" class="contact-item">📞 07732521254</a>
+                <a href="mailto:aliaqeel.intermilano1908@gmail.com" class="contact-item">📧 aliaqeel.intermilano1908@gmail.com</a>
+                <a href="mailto:aliaqeel_1998@outlook.com" class="contact-item">📧 aliaqeel_1998@outlook.com</a>
+                <a href="https://linkedin.com" target="_blank" class="contact-item">🔗 www.linkedin.com/in/ali-aqeel-840b80184</a>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3 class="section-title">💼 الخبرات العملية</h3>
+            
+            <div class="timeline-item">
+                <div class="time-header">
+                    <span class="company">مركز TOP CHECK CENTER لفحص وتشخيص السيارات</span>
+                    <span class="date">أكتوبر 2022 - مايو 2025</span>
+                </div>
+                <div class="job-title">مدير المركز ومسؤول التشخيص التقني</div>
+                <ul>
+                    <li>إدارة العمليات اليومية للمركز وتنظيم شؤون الموظفين والعملاء.</li>
+                    <li>تشخيص وتحديد أعطال ومشاكل السيارات الحديثة باستخدام الأنظمة البرمجية والحاسوب.</li>
+                    <li>إدخال البيانات وإدارة الملفات وسجلات الفحص الدورية وتوثيقها.</li>
+                </ul>
+            </div>
+
+            <div class="timeline-item">
+                <div class="time-header">
+                    <span class="company">شركة حد الريادة HDR للأدوات والأجهزة الكهربائية</span>
+                    <span class="date">فبراير 2021 - مايو 2022</span>
+                </div>
+                <div class="job-title">مسؤول مبيعات ومدخل بيانات وحسابات</div>
+                <ul>
+                    <li>إدارة وتوثيق مبيعات الأدوات والمعدات (Power Tools) المباشرة للعملاء.</li>
+                    <li>إدخال وجدولة البيانات الحسابية ومراقبة وتحديث المخزون بشكل دوري.</li>
+                    <li>تنظيم الدفاتر المالية وضبط الحسابات والتقارير البيعية اليومية.</li>
+                </ul>
+            </div>
+
+            <div class="timeline-item">
+                <div class="time-header">
+                    <span class="company">مكتب مريم Maryam Computers Store لبيع وصيانة الحاسوب</span>
+                    <span class="date">نوفمبر 2017 - يناير 2020</span>
+                </div>
+                <div class="job-title">مسؤول المبيعات والصيانة والمشتريات</div>
+                <ul>
+                    <li>تشخيص ومعالجة كافة أعطال الحواسيب البرمجية والعتادية (Hardware & Software).</li>
+                    <li>إدارة عمليات المبيعات المباشرة وتقديم الاستشارات الفنية للزبائن.</li>
+                    <li>مسؤول عن تأمين المشتريات واختيار القطع والمستلزمات التقنية ذات الجودة العالية للمكتب.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3 class="section-title">🛠 المهارات التقنية والشخصية</h3>
+            <div class="skills-grid">
+                <div class="skill-card">مهارة استخدام الحاسوب والبرامج المكتبية (Microsoft Office) <span class="skill-level">متقدم</span></div>
+                <div class="skill-card">اللغة الإنجليزية <span class="skill-level">متوسط</span></div>
+                <div class="skill-card">انشاء البرامج والتطبيقات بالذكاء الاصطناعي (Vibe Coding)</div>
+                <div class="skill-card">التصميم (Adobe Photoshop & Illustrator)</div>
+                <div class="skill-card">المونتاج وتعديل الفيديو (Adobe Premiere)</div>
+                <div class="skill-card">العمل الجماعي وتحمل ضغط العمل</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3 class="section-title">🎓 التعليم</h3>
+            <div class="timeline-item">
+                <div class="time-header">
+                    <span class="company">إعدادية الأعظمية للبنين</span>
+                    <span class="date">الدراسة الثانوية</span>
+                </div>
+                <div class="job-title">الفرع العلمي (غير متخرّج)</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. المحتوى باللغة الإنجليزية -->
+    <div id="cv-en" class="cv-container" dir="ltr">
+        <button class="back-btn" onclick="goBack()">⬅ Change Language / تغيير اللغة</button>
+        
+        <div class="profile-card">
+            <img src="profile.jpg" alt="Ali Aqeel" class="profile-img">
+            <h2>Ali Aqeel Ibrahim</h2>
+                        <p class="summary">Gained extensive experience across all fields of work, highly adaptable and quick learner. Proven ability to work effectively within teams and handle workplace pressure efficiently. Seeking to join a professional work environment where I can contribute my skills, share my expertise, and support operational growth.</p>
+            
+            <div class="contact-info">
+                <a href="tel:07732521254" class="contact-item">📞 07732521254</a>
+                <a href="mailto:aliaqeel.intermilano1908@gmail.com" class="contact-item">📧 aliaqeel.intermilano1908@gmail.com</a>
+                <a href="mailto:aliaqeel_1998@outlook.com" class="contact-item">📧 aliaqeel_1998@outlook.com</a>
+                <a href="https://linkedin.com" target="_blank" class="contact-item">🔗 www.linkedin.com/in/ali-aqeel-840b80184</a>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3 class="section-title">💼 Work Experience</h3>
+            
+            <div class="timeline-item">
+                <div class="time-header">
+                    <span class="company">TOP CHECK CENTER (Car Diagnostics Center)</span>
+                    <span class="date">Oct 2022 - May 2025</span>
+                </div>
+                <div class="job-title">Center Manager & Diagnostics Specialist</div>
+                <ul>
+                    <li>Managed daily center operations, coordinating staff work and client reception.</li>
+                    <li>Diagnosed modern car faults and system errors utilizing specialized computer software.</li>
+                    <li>Handled data entry, updated inspection registries, and organized technical documentation.</li>
+                </ul>
+            </div>
+
+            <div class="timeline-item">
+                <div class="time-header">
+                    <span class="company">Had Al-Reyadah (HDR) Co. for Power Tools</span>
+                    <span class="date">Feb 2021 - May 2022</span>
+                </div>
+                <div class="job-title">Sales Representative, Data Entry & Accounting Assistant</div>
+                <ul>
+                    <li>Managed direct customer sales for power tools and electronic hardware equipment.</li>
+                    <li>Performed accurate data entry for financial records and monitored inventory adjustments.</li>
+                    <li>Organized financial ledgers, processed receipts, and prepared daily sales reports.</li>
+                </ul>
+            </div>
+
+            <div class="timeline-item">
+                <div class="time-header">
+                    <span class="company">Maryam Computers Store</span>
+                    <span class="date">Nov 2017 - Jan 2020</span>
+                </div>
+                <div class="job-title">Sales, Procurement & Computer Maintenance Technician</div>
+                <ul>
+                    <li>Diagnosed and repaired technical computer faults across hardware and software levels.</li>
+                    <li>Handled retail store sales operations and delivered technical support advice to clients.</li>
+                    <li>Managed commercial procurement, selecting premium components and tech accessories.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3 class="section-title">🛠 Technical & Personal Skills</h3>
+            <div class="skills-grid">
+                <div class="skill-card">Computer Skills & Office Applications (MS Office) <span class="skill-level">Advanced</span></div>
+                <div class="skill-card">English Language <span class="skill-level">Intermediate</span></div>
+                <div class="skill-card">AI Program & App Development (Vibe Coding)</div>
+                <div class="skill-card">Graphic Design (Adobe Photoshop & Illustrator)</div>
+                <div class="skill-card">Video Editing (Adobe Premiere)</div>
+                <div class="skill-card">Teamwork & Stress Management</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3 class="section-title">🎓 Education</h3>
+            <div class="timeline-item">
+                <div class="time-header">
+                    <span class="company">Al-Adhamiya High School for Boys</span>
+                    <span class="date">High School</span>
+                </div>
+                <div class="job-title">Scientific Branch (Non-graduate)</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. جافا سكريبت للتنقل بين الصفحات والتحكم باللغات -->
+    <script>
+        function showCV(lang) {
+            document.getElementById('lang-page').style.display = 'none';
+            if(lang === 'ar') {
+                document.getElementById('cv-ar').style.display = 'block';
+                document.documentElement.setAttribute('lang', 'ar');
+            } else {
+                document.getElementById('cv-en').style.display = 'block';
+                document.documentElement.setAttribute('lang', 'en');
+            }
+            window.scrollTo(0, 0);
+        }
+
+        function goBack() {
+            document.getElementById('cv-ar').style.display = 'none';
+            document.getElementById('cv-en').style.display = 'none';
+            document.getElementById('lang-page').style.display = 'flex';
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>
